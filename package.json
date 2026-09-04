@@ -1,0 +1,28 @@
+{
+  "name": "backend-live",
+  "version": "1.0.0",
+  "description": "",
+  "main": "paymentService.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Moses-lab644/Solarman24-7.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Moses-lab644/Solarman24-7/issues"
+  },
+  "homepage": "https://github.com/Moses-lab644/Solarman24-7#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "openai": "^7.10.0",
+    "pg": "^8.23.0"
+  }
+}
