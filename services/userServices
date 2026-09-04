@@ -1,0 +1,74 @@
+const pool = require("./db");
+
+// ==========================
+// CREATE OR GET USER
+// ==========================
+const getUser = async (phone) => {
+
+  let result = await pool.query(
+    "SELECT * FROM users WHERE phone = $1",
+    [phone]
+  );
+
+  // create user if not exists
+  if (result.rows.length === 0) {
+
+    await pool.query(
+      `
+      INSERT INTO users
+      (phone, access, plan)
+      VALUES ($1, $2, $3)
+      `,
+      [phone, false, "FREE"]
+    );
+
+    result = await pool.query(
+      "SELECT * FROM users WHERE phone = $1",
+      [phone]
+    );
+  }
+
+  return result.rows[0];
+};
+
+// ==========================
+// CHECK ACCESS
+// ==========================
+const hasAccess = async (phone) => {
+
+  const result = await pool.query(
+    "SELECT access FROM users WHERE phone = $1",
+    [phone]
+  );
+
+  if (result.rows.length === 0) {
+    return false;
+  }
+
+  return result.rows[0].access;
+};
+
+// ==========================
+// ACTIVATE ACCESS
+// ==========================
+const activateAccess = async (
+  phone,
+  plan = "LIFETIME"
+) => {
+
+  await pool.query(
+    `
+    UPDATE users
+    SET access = true,
+        plan = $1
+    WHERE phone = $2
+    `,
+    [plan, phone]
+  );
+};
+
+module.exports = {
+  getUser,
+  hasAccess,
+  activateAccess
+};
